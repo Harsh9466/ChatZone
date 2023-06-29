@@ -5,9 +5,18 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "lerna run start"
+    "start": "lerna run start",
+    "build:client": "cd packages/client && yarn install && npm run build",
+    "build:server": "cd packages/server && npm install",
+    "build:prod": "yarn run build:client && yarn run build:server",
+    "start:prod": "cd packages/server && node server.js"
   },
   "devDependencies": {
     "lerna": "^6.6.2"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.2"
   }
 }
