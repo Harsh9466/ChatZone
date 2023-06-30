@@ -54,7 +54,8 @@ exports.sendFriendRequest = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: "Friend Request Sent!",
+    data: receiverId,
+    message: "Friend Request Sent!",
   });
 });
 
@@ -104,6 +105,46 @@ exports.acceptFriendRequest = catchAsync(async (req, res, next) => {
 
   return res.status(200).json({
     status: "success",
-    data: "Request Accepted",
+    data: userIdToAccept,
+    message: "Request Accepted",
+  });
+});
+
+exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
+  const currentUserId = ObjectId(req.user._id);
+  const userIdToReject = ObjectId(req.params.userId);
+
+  const isRequestExist = !!(await User.findOne({
+    _id: currentUserId,
+    "friendRequests.sender": userIdToReject,
+  }));
+
+  const isAlreadyFriend = !!(await User.findOne({
+    _id: currentUserId,
+    friends: userIdToReject,
+  }));
+
+  if (isAlreadyFriend) {
+    return next(new AppError("This user is already your friend.", 400));
+  }
+
+  if (!isRequestExist) {
+    return next(
+      new AppError(`No friend request to reject with userId: ${userIdToReject}`, 400)
+    );
+  }
+
+  if (req.user._id == req.params.userId) {
+    return next(new AppError("You can't reject yourself.", 400));
+  }
+  
+  await User.findByIdAndUpdate(currentUserId, {
+    $pull: { friendRequests: { sender: userIdToReject } },
+  });
+
+  return res.status(200).json({
+    status: "success",
+    data: userIdToReject,
+    message: "Request Rejected"
   });
 });

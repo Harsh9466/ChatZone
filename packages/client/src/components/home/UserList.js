@@ -39,7 +39,7 @@ const UsersList = ({ reciever, setReciever }) => {
   }, []);
 
   return (
-    <Row className="user-list">
+    <div className="user-list">
       <div className="top-bar">
         <div className='user-details'>
           <img
@@ -76,7 +76,7 @@ const UsersList = ({ reciever, setReciever }) => {
       ) : (
         <Loader />
       )}
-    </Row>
+    </div>
   );
 };
 
@@ -91,7 +91,7 @@ const User = ({ user, setReciever, reciever }) => {
   }, [user, reciever]);
 
   return (
-    <Col
+    <div
       className={`user ${active ? "active" : ""}`}
       ref={userRef}
       onClick={() => setReciever(user)}
@@ -106,7 +106,7 @@ const User = ({ user, setReciever, reciever }) => {
           <div className="last-message">{user?.lastMessage?.message}</div>
         </div>
       </div>
-    </Col>
+    </div>
   );
 };
 
