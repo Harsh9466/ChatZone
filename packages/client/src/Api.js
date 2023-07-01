@@ -15,5 +15,5 @@ export const Api = {
     } else if (type === "POST") {
       return axios.post(serverURL + url, body, { headers });
     }
-  },
+  }
 };

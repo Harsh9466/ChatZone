@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 import defaultAvatar from "../../assets/img/default-user.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllUsers } from "../../redux/slices/userSlice";
@@ -8,18 +7,19 @@ import sad from "../../assets/lottie/sad.json";
 import { AiOutlineMore } from "react-icons/ai";
 import Loader from "../common/Loader";
 import useRequest from "../../hooks/useRequest";
+import PropTypes from "prop-types";
 import { hasKeys } from "../../utils/utils";
 
 const UsersList = ({ reciever, setReciever }) => {
   const [users, setUsers] = useState([]);
-  const userReducer = useSelector((state) => state.userReducer);
+  const userReducer = useSelector(state => state.userReducer);
   const {
     data,
     loading,
-    sendRequest: getAllFriends,
+    sendRequest: getAllFriends
   } = useRequest({
     requestType: "GET",
-    url: `/api/v1/friends`,
+    url: `/api/v1/friends`
   });
   const dispatch = useDispatch();
 
@@ -41,7 +41,7 @@ const UsersList = ({ reciever, setReciever }) => {
   return (
     <div className="user-list">
       <div className="top-bar">
-        <div className='user-details'>
+        <div className="user-details">
           <img
             className="avatar"
             src={userReducer?.user?.photo || defaultAvatar}
@@ -108,6 +108,17 @@ const User = ({ user, setReciever, reciever }) => {
       </div>
     </div>
   );
+};
+
+UsersList.propTypes = {
+  reciever: PropTypes.object,
+  setReciever: PropTypes.func
+};
+
+User.propTypes = {
+  user: PropTypes.object,
+  reciever: PropTypes.object,
+  setReciever: PropTypes.func
 };
 
 export default UsersList;

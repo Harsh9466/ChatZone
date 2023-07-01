@@ -5,40 +5,41 @@ import { hasKeys } from "../../utils/utils";
 import Welcome from "./Welcome";
 import defaultAvatar from "../../assets/img/default-user.png";
 import useRequest from "../../hooks/useRequest";
+import PropTypes from "prop-types";
 import Loader from "../common/Loader";
 
 const Chat = ({ reciever, socket }) => {
   const messageRef = useRef(null);
   const allMessagesRef = useRef(null);
-  const userReducer = useSelector((state) => state.userReducer);
+  const userReducer = useSelector(state => state.userReducer);
   const {
     data,
     loading,
-    sendRequest: getAllMessages,
+    sendRequest: getAllMessages
   } = useRequest({
     requestType: "GET",
-    url: `/api/v1/messages/${reciever?._id}`,
+    url: `/api/v1/messages/${reciever?._id}`
   });
   const { sendRequest: sendMessageInDB } = useRequest({
     requestType: "POST",
-    url: `/api/v1/messages/sendMessage/${reciever?._id}`,
+    url: `/api/v1/messages/sendMessage/${reciever?._id}`
   });
   const [allMessages, setAllMessages] = useState([]);
   const [message, setMessage] = useState("");
 
   const onMessage = (type, message) => {
-    setAllMessages((p) => [
+    setAllMessages(p => [
       ...p,
       <div key={p.length + 1} className="message">
         <div className={type}>{message}</div>
-      </div>,
+      </div>
     ]);
   };
 
   const scrollToBottom = () => {
     allMessagesRef.current.scrollTo({
       top: allMessagesRef.current.scrollHeight,
-      behavior: "smooth",
+      behavior: "smooth"
     });
   };
 
@@ -54,7 +55,7 @@ const Chat = ({ reciever, socket }) => {
       socket.emit("send-msg", {
         from: userReducer?.user?._id,
         to: reciever?._id,
-        message: message.trim(),
+        message: message.trim()
       });
       setMessage("");
       scrollToBottom();
@@ -64,7 +65,7 @@ const Chat = ({ reciever, socket }) => {
   };
 
   useEffect(() => {
-    socket.on("msg-recieved", (message) => {
+    socket.on("msg-recieved", message => {
       scrollToBottom();
       onMessage("recieved", message);
     });
@@ -82,7 +83,7 @@ const Chat = ({ reciever, socket }) => {
     if (chats?.length) {
       chats
         ?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-        .forEach((el) => {
+        .forEach(el => {
           if (el && el.sender === userReducer?.user?._id) {
             onMessage("sent", el.message.content);
           } else {
@@ -90,7 +91,7 @@ const Chat = ({ reciever, socket }) => {
           }
         });
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [data]);
 
   return (
@@ -117,9 +118,9 @@ const Chat = ({ reciever, socket }) => {
                   <input
                     ref={messageRef}
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={e => setMessage(e.target.value)}
                     placeholder="Message"
-                    onKeyUp={(e) => {
+                    onKeyUp={e => {
                       if (e.key === "Enter") sendMessage();
                     }}
                   />
@@ -139,6 +140,11 @@ const Chat = ({ reciever, socket }) => {
       </div>
     </>
   );
+};
+
+Chat.propTypes = {
+  reciever: PropTypes.object,
+  socket: PropTypes.object
 };
 
 export default Chat;

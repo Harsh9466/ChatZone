@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Api } from "../Api";
 import toast from "react-hot-toast";
 
-const useRequest = (args) => {
+const useRequest = args => {
   const defaultParams = {
     requestType: "POST",
     url: "",
     auth: true,
-    alert: true,
+    alert: true
   };
   const { requestType, url, auth, alert } = Object.assign(defaultParams, args);
 
@@ -17,14 +17,14 @@ const useRequest = (args) => {
 
   const sendRequest = async (body = {}) => {
     setLoading(true);
-    
+
     Api.send(requestType, url, body, auth)
-      .then((response) => {
+      .then(response => {
         if (response?.data) {
           setData(response.data);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         if (alert) {
           toast.error(err?.response?.data?.message);
         }

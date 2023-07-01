@@ -5,7 +5,7 @@ import Lottie from "lottie-react";
 const Loader = () => {
   return (
     <div className="loader">
-      <Lottie className='main-loader' animationData={LoaderData} loop></Lottie>
+      <Lottie className="main-loader" animationData={LoaderData} loop></Lottie>
     </div>
   );
 };

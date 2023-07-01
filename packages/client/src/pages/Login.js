@@ -7,24 +7,24 @@ import useRequest from "../hooks/useRequest";
 import { hasKeys } from "../utils/utils";
 
 const Login = () => {
-  const userReducer = useSelector((state) => state.userReducer);
+  const userReducer = useSelector(state => state.userReducer);
   const {
     data,
     loading,
-    sendRequest: login,
+    sendRequest: login
   } = useRequest({
     requestType: "POST",
     url: "/api/v1/users/login",
-    auth: false,
+    auth: false
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     username: "",
-    password: "",
+    password: ""
   });
 
-  const onInputChange = (e) => {
+  const onInputChange = e => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 

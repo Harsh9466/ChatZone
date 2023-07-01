@@ -1,6 +1,12 @@
+// Bootstrap
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-@import "base";
-@import "layout";
-@import "home.scss";
-@import "loader.scss";
+// Variables
+@import "variables";
+
+// Components
+@import "components/base";
+@import "components/loader";
+
+// Pages
+@import "pages/home.scss";

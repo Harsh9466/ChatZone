@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { hasKeys } from "../utils/utils";
+import PropTypes from "prop-types";
 
 const Home = ({ socket }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [reciever, setReciever] = useState({});
-  const userReducer = useSelector((state) => state.userReducer);
+  const userReducer = useSelector(state => state.userReducer);
 
   useEffect(() => {
     const navigationTo = async () => {
@@ -37,6 +38,10 @@ const Home = ({ socket }) => {
       <Chat reciever={reciever} setReciever={setReciever} socket={socket} />
     </div>
   );
+};
+
+Home.propTypes = {
+  socket: PropTypes.object
 };
 
 export default Home;
