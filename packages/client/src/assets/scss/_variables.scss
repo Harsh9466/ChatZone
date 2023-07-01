@@ -1,4 +1,51 @@
-// Body
+// Colors
+$color-white: #fff;
+$color-black: #000;
+$color-dark: #111b21;
+$color-grey: rgb(147 147 147 / 50%);
+$color-dark-grey: #222e35;
 
-$body_bg_color: #111b21;
-$body_text_color: #fff;
+// Border
+$border-width-primary: 2px;
+$border-radius-primary: 10px;
+
+// Sidebar
+$sidebar-top-header-height: 50px;
+$sidebar-width: 400px;
+
+// Chat
+$chat-top-bar-height: 50px;
+$chat-bottom-bar-height: 80px;
+
+
+
+// Bootstrap Variables Override
+// $primary: #0e8c75;
+// $secondary: #222e35;
+// $modal-content-border-color: rgb(147 147 147 / 50%);
+// $modal-content-bg: #111b21;
+// $btn-close-color: #fff;
+
+$white: #111b21 !default;
+$gray-100: #f8f9fa !default;
+$gray-600: #6c757d !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+
+$color-contrast-dark: #f8f9fa;
+$color-contrast-light: #111b21;
+$btn-close-color: #f8f9fa;
+$modal-content-border-color: rgb(147 147 147 / 30%);
+$border-color: rgb(147 147 147 / 50%);
+
+$theme-colors: (
+  "primary": rgb(14, 140, 117),
+  "secondary": rgb(34, 46, 53),
+  "success": rgb(0, 221, 180),
+  "info": rgb(68, 174, 212),
+  "warning": rgb(212, 205, 68),
+  "danger": rgba(221, 44, 28, 0.918),
+  "light": rgb(17, 27, 33),
+  "dark": rgb(248, 249, 250)
+);

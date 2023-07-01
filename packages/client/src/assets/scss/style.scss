@@ -1,8 +1,8 @@
-// Bootstrap
-@import 'bootstrap/dist/css/bootstrap.min.css';
-
 // Variables
 @import "variables";
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
 
 // Components
 @import "components/base";

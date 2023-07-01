@@ -9,9 +9,16 @@ import Loader from "../common/Loader";
 import useRequest from "../../hooks/useRequest";
 import PropTypes from "prop-types";
 import { hasKeys } from "../../utils/utils";
+import { Button } from "react-bootstrap";
+import Modals from "../Modal";
 
 const UsersList = ({ reciever, setReciever }) => {
   const [users, setUsers] = useState([]);
+  const [currentModel, setCurrentModel] = useState({
+    name: null,
+    props: null
+  });
+
   const userReducer = useSelector(state => state.userReducer);
   const {
     data,
@@ -37,6 +44,21 @@ const UsersList = ({ reciever, setReciever }) => {
   useEffect(() => {
     dispatch(setAllUsers(users));
   }, []);
+
+  const handleShowModel = (model = null, modelProps = null) => {
+    setCurrentModel({
+      name: Modals[model] ? model : null,
+      props: modelProps
+    });
+  };
+
+  const onAddFriends = () => {
+    handleShowModel("AddFriendModal", {
+      handleClose: () => setCurrentModel({})
+    });
+  };
+
+  const Modal = Modals[currentModel.name];
 
   return (
     <div className="user-list">
@@ -69,13 +91,16 @@ const UsersList = ({ reciever, setReciever }) => {
             <div className="no-friends">
               <Lottie animationData={sad} loop></Lottie>
               <p className="text">No Friends Yet!</p>
-              <button className="add-friends-btn">Add Friends</button>
+              <Button className="w-50" onClick={onAddFriends}>
+                Add Friends
+              </Button>
             </div>
           )}
         </>
       ) : (
         <Loader />
       )}
+      {currentModel.name && <Modal {...currentModel.props} />}
     </div>
   );
 };

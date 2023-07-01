@@ -7,6 +7,7 @@ import defaultAvatar from "../../assets/img/default-user.png";
 import useRequest from "../../hooks/useRequest";
 import PropTypes from "prop-types";
 import Loader from "../common/Loader";
+// import AddFriendModal from "../Modal/Modal";
 
 const Chat = ({ reciever, socket }) => {
   const messageRef = useRef(null);

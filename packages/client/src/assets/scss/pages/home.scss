@@ -5,21 +5,18 @@
 
 
   & .user-list {
-    border: 2px solid rgb(147 147 147 / 50%);
+    border: $border-width-primary solid $color-grey;
     border-right: none;
     border-top-right-radius: 0px;
-    border-top-left-radius: 10px;
+    border-top-left-radius: $border-radius-primary;
     border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius: $border-radius-primary;
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding-top: 50px;
-    min-width: 300px;
-    width: 400px;
-    overflow: hidden;
-
+    padding-top: $sidebar-top-header-height;
+    width: $sidebar-width;
     overflow: auto;
 
     & .top-bar {
@@ -27,15 +24,15 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: 50px;
+      height: $sidebar-top-header-height;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 10px;
       font-size: 1.6rem;
-      border-bottom: 2px solid rgb(147 147 147 / 50%);
-      background-color: #222e35;
+      border-bottom: $border-width-primary solid $color-grey;
+      background-color: $color-dark;
 
       & .user-details {
         display: flex;
@@ -47,6 +44,7 @@
           width: 30px;
           height: 30px;
         }
+
         & .name {
           font-size: 1.2rem;
         }
@@ -64,7 +62,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #505354;
+          background-color: $color-grey;
         }
       }
 
@@ -163,28 +161,28 @@
     overflow: hidden;
 
     padding: 10px;
-    border: 2px solid rgb(147 147 147 / 50%);
-    border-top-right-radius: 10px;
+    border: $border-width-primary solid $color-grey;
+    border-top-right-radius: $border-radius-primary;
     border-top-left-radius: 0px;
-    border-bottom-right-radius: 10px;
+    border-bottom-right-radius: $border-radius-primary;
     border-bottom-left-radius: 0px;
 
-    background-color: #222e35;
+    background-color: $color-dark;
 
     & .top-bar {
       user-select: none;
       position: absolute;
       top: 0;
       left: 0;
-      height: 50px;
+      height: $chat-top-bar-height;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 10px;
       font-size: 1.6rem;
-      border-bottom: 2px solid rgb(147 147 147 / 50%);
-      background-color: #222e35;
+      border-bottom: $border-width-primary solid $color-grey;
+      background-color: $color-dark;
 
       & .user-details {
         display: flex;
@@ -200,10 +198,10 @@
     }
 
     & .messages {
-      height: calc(100% - (50px + 80px));
+      height: calc(100% - ($chat-top-bar-height + $chat-bottom-bar-height));
       cursor: default;
       position: absolute;
-      top: 50px;
+      top: $chat-top-bar-height;
       left: 0;
       width: 100%;
       padding: 10px 20px;
@@ -237,7 +235,7 @@
     }
 
     & .message-send-box {
-      height: 80px;
+      height: $chat-bottom-bar-height;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -246,8 +244,8 @@
       column-gap: 5px;
       width: 100%;
       padding: 20px;
-      border-top: 2px solid rgb(147 147 147 / 50%);
-      background-color: #222e35;
+      border-top: $border-width-primary solid $color-grey;
+      background-color: $color-dark;
 
       & input {
         height: 40px;
@@ -279,7 +277,7 @@
 
       & div:hover {
         transition: 0.1s ease;
-        background-color: #111b21;
+        background-color: $color-dark;
       }
     }
 

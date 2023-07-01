@@ -1,9 +1,5 @@
-import React from 'react'
+import AddFriendModal from "./AddFriendModal";
 
-const index = () => {
-  return (
-    <div>index</div>
-  )
-}
-
-export default index
+export default {
+  AddFriendModal
+};
