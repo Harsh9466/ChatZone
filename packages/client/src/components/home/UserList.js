@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import defaultAvatar from "../../assets/img/default-user.png";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllUsers } from "../../redux/slices/userSlice";
+import { setAllUsers, setUser } from "../../redux/slices/userSlice";
 import Lottie from "lottie-react";
 import sad from "../../assets/lottie/sad.json";
 import { AiOutlineMore } from "react-icons/ai";
@@ -9,10 +9,14 @@ import Loader from "../common/Loader";
 import useRequest from "../../hooks/useRequest";
 import PropTypes from "prop-types";
 import { hasKeys } from "../../utils/utils";
-import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Button, Dropdown } from "react-bootstrap";
 import Modals from "../Modal";
+import CustomDropdownToggle from "../common/CustomDropdownToggle";
+import CustomDropdownItem from "../common/CustomDropdownItem";
 
 const UsersList = ({ reciever, setReciever }) => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [currentModel, setCurrentModel] = useState({
     name: null,
@@ -58,6 +62,14 @@ const UsersList = ({ reciever, setReciever }) => {
     });
   };
 
+  const onLogOut = () => {
+    setAllUsers([]);
+    localStorage.clear();
+    dispatch(setAllUsers([]));
+    dispatch(setUser({}));
+    navigate("/auth/login");
+  };
+
   const Modal = Modals[currentModel.name];
 
   return (
@@ -71,9 +83,22 @@ const UsersList = ({ reciever, setReciever }) => {
           ></img>
           <div className="name">{userReducer?.user?.name}</div>
         </div>
-        <div className="more-icon-box">
-          <AiOutlineMore className="more-icon" />
-        </div>
+        <Dropdown>
+          <Dropdown.Toggle as={CustomDropdownToggle}>
+            <div className="more-icon-box">
+              <AiOutlineMore className="more-icon" />
+            </div>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu variant="dark">
+            <Dropdown.Item as={CustomDropdownItem} onClick={onAddFriends}>
+              Add New Friends
+            </Dropdown.Item>
+            <Dropdown.Item as={CustomDropdownItem} onClick={onLogOut}>
+              Log Out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       {!loading ? (
@@ -111,7 +136,7 @@ const User = ({ user, setReciever, reciever }) => {
 
   useEffect(() => {
     if (hasKeys(reciever) && hasKeys(user)) {
-      setActive(user && user?._id === reciever?._id);
+      setActive(user && user._id === reciever._id);
     }
   }, [user, reciever]);
 

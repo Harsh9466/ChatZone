@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const defaultState = {
   users: [],
-  user: {},
-  token: ""
+  user: {}
 };
 export const userSlice = createSlice({
   name: "user",

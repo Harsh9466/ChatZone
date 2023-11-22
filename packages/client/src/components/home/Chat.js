@@ -38,9 +38,9 @@ const Chat = ({ reciever, socket }) => {
   };
 
   const scrollToBottom = () => {
-    allMessagesRef.current.scrollTo({
-      top: allMessagesRef.current.scrollHeight,
-      behavior: "smooth"
+    allMessagesRef.current?.scrollTo({
+      top: allMessagesRef.current?.scrollHeight
+      // behavior: "smooth"
     });
   };
 

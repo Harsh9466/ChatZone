@@ -30,6 +30,10 @@ main {
   height: 100vh;
 }
 
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;

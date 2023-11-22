@@ -4,13 +4,15 @@ const {
   getAllFriends,
   sendFriendRequest,
   acceptFriendRequest,
-  rejectFriendRequest
+  rejectFriendRequest,
+  searchFriendsByUsername,
 } = require("../controllers/friendController");
 
 const { protect } = require("../controllers/authController");
 
 router.use(protect);
 router.get("/", getAllFriends);
+router.post("/searchFriends", searchFriendsByUsername);
 router.post("/sendRequest/:recieverId", sendFriendRequest);
 router.post("/acceptRequest/:userId", acceptFriendRequest);
 router.post("/rejectRequest/:userId", rejectFriendRequest);

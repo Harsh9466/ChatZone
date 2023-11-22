@@ -35,6 +35,9 @@ app.use(cookieParser());
 
 // Routes(Middlewares)
 app.use("/api/v1", appRouter);
+app.get("/", (req, res, next) => {
+  res.send("Hello from Server!");
+});
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });

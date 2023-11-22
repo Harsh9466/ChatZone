@@ -1,5 +1,5 @@
-import { serverURL } from './utils';
+import { serverURL } from "./utils";
 
 export const apiRoutes = {
-  getAllUsers: `${serverURL}/api/`,
+  getAllUsers: `${serverURL}/api/`
 };

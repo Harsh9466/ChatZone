@@ -1,0 +1,12 @@
+.modal-body {
+  margin: 0 auto;
+
+  & .friends-search-input {
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    min-width: 300px;
+  }
+
+}

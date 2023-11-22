@@ -22,6 +22,29 @@ exports.getAllFriends = catchAsync(async (req, res) => {
   });
 });
 
+exports.searchFriendsByUsername = catchAsync(async (req, res) => {
+  const searchText = req.body.searchText || "";
+
+  if (!searchText) {
+    return res.status(200).json({
+      status: "success",
+      data: [],
+    });
+  }
+
+  const data = await User.find({
+    $or: [
+      { name: { $regex: `^${searchText}.*`, $options: "i" } },
+      { username: { $regex: `^${searchText}.*`, $options: "i" } },
+    ],
+  }).select("name username photo role");
+
+  res.status(200).json({
+    status: "success",
+    data,
+  });
+});
+
 exports.sendFriendRequest = catchAsync(async (req, res, next) => {
   const currentUserId = ObjectId(req.user._id);
   const receiverId = ObjectId(req.params.recieverId);
@@ -86,7 +109,7 @@ exports.acceptFriendRequest = catchAsync(async (req, res, next) => {
   if (req.user._id == req.params.userId) {
     return next(new AppError("You can't become friend of yourself.", 400));
   }
-  
+
   await User.findByIdAndUpdate(currentUserId, {
     $pull: { friendRequests: { sender: userIdToAccept } },
   });
@@ -130,14 +153,17 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
 
   if (!isRequestExist) {
     return next(
-      new AppError(`No friend request to reject with userId: ${userIdToReject}`, 400)
+      new AppError(
+        `No friend request to reject with userId: ${userIdToReject}`,
+        400
+      )
     );
   }
 
   if (req.user._id == req.params.userId) {
     return next(new AppError("You can't reject yourself.", 400));
   }
-  
+
   await User.findByIdAndUpdate(currentUserId, {
     $pull: { friendRequests: { sender: userIdToReject } },
   });
@@ -145,6 +171,6 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
   return res.status(200).json({
     status: "success",
     data: userIdToReject,
-    message: "Request Rejected"
+    message: "Request Rejected",
   });
 });
