@@ -14,15 +14,15 @@ const app = require("./app");
 
 const port = process.env.PORT || 4000;
 
-// const DB = process.env.DATABASE.replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
 
-const LocalDB = process.env.DATABASE_LOCAL;
+// const LocalDB = process.env.DATABASE_LOCAL;
 
 mongoose
-  .connect(LocalDB, {
+  .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -38,7 +38,7 @@ const server = app.listen(port, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
     credentials: true,
   },
 });

@@ -8,7 +8,6 @@ exports.getOne = (Model, populateOptions, projection) =>
     if (populateOptions) query = query.populate(populateOptions);
     if (projection) query = query.select(projection);
 
-    console.log(query);
     const doc = await query;
 
     if (!doc) {
