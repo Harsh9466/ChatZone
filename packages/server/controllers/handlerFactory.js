@@ -1,11 +1,14 @@
-const APIFeatures = require('../utils/apiFeatures');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
+const APIFeatures = require("../utils/apiFeatures");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 
-exports.getOne = (Model, populateOptions) =>
+exports.getOne = (Model, populateOptions, projection) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (populateOptions) query = query.populate(populateOptions);
+    if (projection) query = query.select(projection);
+
+    console.log(query);
     const doc = await query;
 
     if (!doc) {
@@ -15,8 +18,8 @@ exports.getOne = (Model, populateOptions) =>
     }
 
     res.status(200).json({
-      status: 'success',
-      data: { content: doc },
+      status: "success",
+      data: doc,
     });
   });
 
@@ -36,7 +39,7 @@ exports.getAll = (Model) =>
 
     // Send Response
     res.status(200).json({
-      status: 'success',
+      status: "success",
       results: docs.length,
       data: { content: docs },
     });
@@ -47,7 +50,7 @@ exports.createOne = (Model) =>
     const newData = await Model.create(req.body);
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: { content: newData },
     });
   });
@@ -66,7 +69,7 @@ exports.updateOne = (Model) =>
     }
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         content: doc,
       },
@@ -84,7 +87,7 @@ exports.deleteOne = (Model) =>
     }
 
     res.status(204).json({
-      status: 'success',
+      status: "success",
       data: null,
     });
   });

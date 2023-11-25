@@ -53,7 +53,31 @@ io.on("connection", (socket) => {
   socket.on("send-msg", (data) => {
     const sendUserSocket = onlineUsers[data.to];
     if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieved", data.message);
+      socket.to(sendUserSocket).emit("msg-recieved", {
+        sender: data.from,
+        reciever: data.to,
+        message: data.message,
+      });
+    }
+  });
+
+  socket.on("typing-msg", (data) => {
+    const sendUserSocket = onlineUsers[data.to];
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("typing-msg", {
+        sender: data.from,
+        reciever: data.to,
+      });
+    }
+  });
+
+  socket.on("typing-stopped", (data) => {
+    const sendUserSocket = onlineUsers[data.to];
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("typing-stopped", {
+        sender: data.from,
+        reciever: data.to,
+      });
     }
   });
 

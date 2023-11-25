@@ -17,7 +17,8 @@ const CustomDropdownToggle = React.forwardRef(({ children, onClick }, ref) => (
 
 CustomDropdownToggle.propTypes = {
   children: PropTypes.node,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disableOnClick: PropTypes.bool
 };
 
 export default CustomDropdownToggle;

@@ -56,7 +56,10 @@ exports.getMe = (req, res, next) => {
 
 exports.getAllUsers = factory.getAll(User);
 
-exports.getUser = factory.getOne(User);
+exports.getUser = factory.getOne(User, null, {
+  name: 1,
+  photo: 1,
+});
 
 exports.updateUser = factory.updateOne(User);
 

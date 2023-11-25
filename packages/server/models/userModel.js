@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: [true, "Please tell us your unique username!"],
-      unique: true,
+      // unique: true,
       lowercase: true,
     },
     role: {
@@ -52,7 +52,17 @@ const userSchema = new mongoose.Schema(
           required: true,
         },
         recievedAt: { type: Date, default: Date.now },
-        _id: false
+        _id: false,
+      },
+    ],
+    friendRequestsSent: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        _id: false,
       },
     ],
     passwordChangedAt: { type: Date, select: false },

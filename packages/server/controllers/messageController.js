@@ -32,6 +32,8 @@ exports.getAllMessage = catchAsync(async (req, res, next) => {
       { sender: currentUserId, reciever: receiverId },
       { sender: receiverId, reciever: currentUserId },
     ],
+  }).sort({
+    createdAt: 1,
   });
 
   res.status(200).json({

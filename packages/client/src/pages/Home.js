@@ -4,8 +4,9 @@ import Chat from "../components/home/Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { hasKeys } from "../utils/utils";
+import { Screen, hasKeys } from "../utils/utils";
 import PropTypes from "prop-types";
+import Welcome from "../components/home/Welcome";
 
 const Home = ({ socket }) => {
   const navigate = useNavigate();
@@ -32,10 +33,37 @@ const Home = ({ socket }) => {
     }
   }, [socket, userReducer?.user?._id]);
 
+  useEffect(() => {
+    if (hasKeys(reciever)) {
+      navigate(`/chat?id=${reciever?._id}`);
+    }
+  }, [reciever]);
+
+  useEffect(() => {
+    const handleRefresh = () => {
+      // Your logic to handle refresh
+      // For example, navigate to the home page
+      history.push("/");
+    };
+
+    window.addEventListener("beforeunload", handleRefresh);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleRefresh);
+    };
+  }, [history]);
+
   return (
     <div className="home">
-      <UsersList reciever={reciever} setReciever={setReciever} />
-      <Chat reciever={reciever} setReciever={setReciever} socket={socket} />
+      <UsersList />
+
+      {hasKeys(reciever) ? (
+        <Chat reciever={reciever} setReciever={setReciever} socket={socket} />
+      ) : (
+        <div className={`${Screen.isMobileView ? "chat d-none" : "chat"}`}>
+          <Welcome />
+        </div>
+      )}
     </div>
   );
 };

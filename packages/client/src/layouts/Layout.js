@@ -13,6 +13,7 @@ import Home from "../pages/Home";
 
 // Error Routes
 import Error404 from "../components/errors/Error404";
+import Chat from "../components/home/Chat";
 
 const Layout = ({ socket }) => {
   return (
@@ -28,6 +29,7 @@ const Layout = ({ socket }) => {
         {/* Main Routes */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home socket={socket} />} />
+          <Route path="/chat" element={<Chat socket={socket} />} />
         </Route>
 
         {/* Error Routes */}

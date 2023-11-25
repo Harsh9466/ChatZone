@@ -24,7 +24,7 @@ exports.getAllFriends = catchAsync(async (req, res) => {
 
 exports.searchFriendsByUsername = catchAsync(async (req, res) => {
   const searchText = req.body.searchText || "";
-
+  let data = [];
   if (!searchText) {
     return res.status(200).json({
       status: "success",
@@ -32,12 +32,51 @@ exports.searchFriendsByUsername = catchAsync(async (req, res) => {
     });
   }
 
-  const data = await User.find({
+  data = await User.find({
     $or: [
       { name: { $regex: `^${searchText}.*`, $options: "i" } },
       { username: { $regex: `^${searchText}.*`, $options: "i" } },
     ],
-  }).select("name username photo role");
+  })
+    .select("name username photo role")
+    .limit(5);
+
+  if (data && data.length > 0) {
+    const currentUserId = req.user?._id?.toString();
+    const currentFriendsIds = req.user?.friends?.map((el) => el?.toString());
+    const currentFriendRequestSentIds =
+      req.user?.friendRequestsSent?.map((el) => el?.userId?.toString()) || [];
+
+    const idsToRemove = [currentUserId, ...currentFriendsIds];
+    data = data
+      .filter((el) => !idsToRemove.includes(el?._id?.toString()))
+      ?.map((el) => {
+        if (currentFriendRequestSentIds.includes(el?._id?.toString())) {
+          return { ...el?._doc, requestAlreadySent: true };
+        } else {
+          return el;
+        }
+      });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data,
+  });
+});
+
+exports.getAllFriendRequests = catchAsync(async (req, res) => {
+  const data =
+    (
+      await User.findOne({
+        _id: new mongoose.Types.ObjectId(req.user),
+      }).populate([
+        { path: "friendRequests.sender", select: "name username photo role" },
+      ])
+    )?.friendRequests?.map((el) => ({
+      ...el?.sender?._doc,
+      recievedAt: el.recievedAt,
+    })) || [];
 
   res.status(200).json({
     status: "success",
@@ -70,6 +109,10 @@ exports.sendFriendRequest = catchAsync(async (req, res, next) => {
   if (isAlreadyRequested) {
     return next(new AppError("Request already sent.", 400));
   }
+
+  await User.findByIdAndUpdate(currentUserId, {
+    $push: { friendRequestsSent: { userId: receiverId } },
+  });
 
   await User.findByIdAndUpdate(receiverId, {
     $push: { friendRequests: { sender: currentUserId } },
@@ -126,9 +169,19 @@ exports.acceptFriendRequest = catchAsync(async (req, res, next) => {
     $push: { friends: currentUserId },
   });
 
+  await User.findByIdAndUpdate(userIdToAccept, {
+    $pull: {
+      friendRequestsSent: { userId: currentUserId },
+    },
+  });
+
+  const userData = await User.findOne({
+    _id: userIdToAccept,
+  }).select("name username photo role");
+
   return res.status(200).json({
     status: "success",
-    data: userIdToAccept,
+    data: userData,
     message: "Request Accepted",
   });
 });
@@ -165,7 +218,16 @@ exports.rejectFriendRequest = catchAsync(async (req, res, next) => {
   }
 
   await User.findByIdAndUpdate(currentUserId, {
-    $pull: { friendRequests: { sender: userIdToReject } },
+    $pull: {
+      friendRequests: { sender: userIdToReject },
+      friendRequestsSent: { userId: userIdToReject },
+    },
+  });
+
+  await User.findByIdAndUpdate(userIdToReject, {
+    $pull: {
+      friendRequestsSent: { userId: currentUserId },
+    },
   });
 
   return res.status(200).json({

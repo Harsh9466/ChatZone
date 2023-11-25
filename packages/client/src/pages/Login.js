@@ -5,6 +5,7 @@ import { setUser } from "../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import { hasKeys } from "../utils/utils";
+import logo from "../assets/img/logo.png";
 
 const Login = () => {
   const userReducer = useSelector(state => state.userReducer);
@@ -14,7 +15,7 @@ const Login = () => {
     sendRequest: login
   } = useRequest({
     requestType: "POST",
-    url: "/api/v1/users/login",
+    url: "/users/login",
     auth: false
   });
   const navigate = useNavigate();
@@ -48,24 +49,57 @@ const Login = () => {
   }, [navigate, userReducer?.user]);
 
   return (
-    <>
-      <input
-        type="text"
-        name="username"
-        value={userData.email}
-        onChange={onInputChange}
-      />
-      <input
-        type="password"
-        name="password"
-        value={userData.password}
-        onChange={onInputChange}
-      />
-      <Button variant="outline-dark" onClick={() => login(userData)}>
-        Login
-      </Button>
-      {loading && <>Loading...</>}
-    </>
+    <div className="login">
+      <div className="content">
+        <div className="logo-details">
+          <img className="logo" src={logo} alt="logo"></img>
+          <div className="title">
+            Login into <span className="appName">ChatZone</span>
+          </div>
+        </div>
+        <div className="inputs-fields">
+          <div className="input-container">
+            <div className="label">Username</div>
+            <input
+              className="input username"
+              type="text"
+              name="username"
+              value={userData.email}
+              onChange={onInputChange}
+              disabled={loading}
+            />
+          </div>
+          <div className="input-container">
+            <div className="label">Password</div>
+            <input
+              className="input password"
+              type="password"
+              name="password"
+              value={userData.password}
+              onChange={onInputChange}
+              disabled={loading}
+            />
+          </div>
+        </div>
+
+        <Button
+          className="button login-btn"
+          variant="outline-dark"
+          onClick={() => login(userData)}
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
+        </Button>
+      </div>
+      <div className="lines">
+        <p className="line">
+          Not Registered?{" "}
+          <a className="link" onClick={() => navigate("/auth/register")}>
+            Register here
+          </a>
+        </p>
+      </div>
+    </div>
   );
 };
 
