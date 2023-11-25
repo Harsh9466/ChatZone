@@ -19,8 +19,10 @@ dotenv.config({ path: "./config.env" });
 
 const port = process.env.PORT || 4000;
 
-// const DB = process.env.DATABASE;
-const DB = process.env.DATABASE_LOCAL;
+const DB =
+  process.env.NODE_ENV === "production"
+    ? process.env.DATABASE
+    : process.env.DATABASE_LOCAL;
 
 mongoose
   .connect(DB, {
