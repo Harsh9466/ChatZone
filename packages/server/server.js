@@ -14,10 +14,7 @@ const app = require("./app");
 
 const port = process.env.PORT || 4000;
 
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
+const DB = process.env.DATABASE;
 
 // const LocalDB = process.env.DATABASE_LOCAL;
 
