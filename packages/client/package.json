@@ -26,6 +26,9 @@
     "sass": "^1.63.4",
     "sass-loader": "^12.6.0",
     "webpack": "^5.87.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.2",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.0-placeholder-for-preset-env.2"
   },
   "scripts": {

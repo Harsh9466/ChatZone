@@ -38,7 +38,7 @@ const useRequest = args => {
         }
       })
       .catch(err => {
-        if (alert) {
+        if (alert && err?.response?.data?.message) {
           toast.error(err?.response?.data?.message);
         }
         setError(err);

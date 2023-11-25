@@ -13,10 +13,5 @@
   },
   "devDependencies": {
     "lerna": "^6.6.2"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2"
   }
 }

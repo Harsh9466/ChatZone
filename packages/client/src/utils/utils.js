@@ -1,4 +1,4 @@
-export const serverURL = process.env.BASE_URL || "/";
+export const serverURL = "https://chatzone-1awf.onrender.com";
 
 export const hasKeys = (obj = {}) => {
   return obj && Object.keys(obj).length > 0 ? true : false;
