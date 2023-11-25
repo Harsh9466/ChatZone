@@ -6,10 +6,10 @@
   ],
   "scripts": {
     "start": "lerna run start",
-    "build:client": "cd packages/client && yarn install && npm run build",
+    "build:client": "cd packages/client && npm install && npm run build",
     "build:server": "cd packages/server && npm install",
-    "build:prod": "yarn run build:client && yarn run build:server",
-    "start:prod": "cd packages/server && node server.js"
+    "build:prod": "npm run build:client && npm run build:server",
+    "start:prod": "cd packages/server && node app.js"
   },
   "devDependencies": {
     "lerna": "^6.6.2"

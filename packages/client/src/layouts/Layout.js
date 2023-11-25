@@ -12,7 +12,7 @@ import MainLayout from "./MainLayout";
 import Home from "../pages/Home";
 
 // Error Routes
-import Error404 from "../components/errors/Error404";
+// import Error404 from "../components/errors/Error404";
 import Chat from "../components/home/Chat";
 
 const Layout = ({ socket }) => {
@@ -33,8 +33,8 @@ const Layout = ({ socket }) => {
         </Route>
 
         {/* Error Routes */}
-        <Route path="/404" element={<Error404 />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />
+        {/* <Route path="/404" element={<Error404 />} />
+        <Route path="*" element={<Navigate to="/404" replace />} /> */}
       </Routes>
     </>
   );
