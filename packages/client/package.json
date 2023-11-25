@@ -18,7 +18,10 @@
     "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.6.2",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "sass": "^1.63.4",
+    "sass-loader": "^12.6.0",
+    "webpack": "^5.87.0"
   },
   "scripts": {
     "start": "react-scripts start",
